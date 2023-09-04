@@ -471,4 +471,3 @@ export const deleteUser = CatchAsyncError(
   }
 );
 
-// user.controller
