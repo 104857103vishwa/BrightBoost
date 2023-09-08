@@ -490,4 +490,3 @@ export const generateVideoUrl = CatchAsyncError(
   }
 );
 
-// user.controller
