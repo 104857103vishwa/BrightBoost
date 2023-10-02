@@ -7,7 +7,6 @@ import CourseModel from "../models/course.model";
 import OrderModel from "../models/order.Model";
 
 
-// get users analytics --- only for admin
 export const getUsersAnalytics = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
