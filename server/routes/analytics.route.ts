@@ -12,3 +12,5 @@ analyticsRouter.get("/get-courses-analytics", isAutheticated,authorizeRoles("adm
 
 
 export default analyticsRouter;
+
+//analytics
