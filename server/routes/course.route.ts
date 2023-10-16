@@ -15,7 +15,7 @@ import {
 } from "../controllers/course.controller";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
 const courseRouter = express.Router();
-// course analytics sdf skfl
+// course analytics sdf skfl build
 courseRouter.post(
   "/create-course",
   isAutheticated,
