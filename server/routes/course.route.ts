@@ -47,6 +47,8 @@ courseRouter.put("/add-question", isAutheticated, addQuestion);
 
 courseRouter.put("/add-answer", isAutheticated, addAnwser);
 
+// add review
+
 courseRouter.put("/add-review/:id", isAutheticated, addReview);
 
 courseRouter.put(
