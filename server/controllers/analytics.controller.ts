@@ -17,7 +17,6 @@ export const getUsersAnalytics = CatchAsyncError(
         users,
       });
     } catch (error: any) {
-      console.log(error);
       return next(new ErrorHandler(error.message, 500));
     }
   }

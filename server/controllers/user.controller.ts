@@ -19,6 +19,7 @@ import {
   updateUserRoleService,
 } from "../services/user.service";
 import cloudinary from "cloudinary";
+import { log } from "console";
 
 // register user
 interface IRegistrationBody {
@@ -35,6 +36,7 @@ export const registrationUser = CatchAsyncError(
 
       const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
+        console.log("fires");
         return next(new ErrorHandler("Email already exist", 400));
       }
 
