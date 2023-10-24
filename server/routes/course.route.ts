@@ -15,7 +15,7 @@ import {
 } from "../controllers/course.controller";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
 const courseRouter = express.Router();
-// course analytics
+// course analytics here
 courseRouter.post(
   "/create-course",
   isAutheticated,
