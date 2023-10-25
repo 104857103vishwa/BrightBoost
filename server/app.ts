@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { ErrorMiddleware } from "./middleware/generalErrors";
 import userRouter from "./routes/user";
 import sessionRouter from "./routes/session";
+import paymentRouter from "./routes/payment.route";
 
 export const app = express();
 
@@ -26,6 +27,7 @@ app.use(
   "/api/v1",
   userRouter,
   sessionRouter,
+  paymentRouter,
 );
 
 

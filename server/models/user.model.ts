@@ -18,6 +18,7 @@ export interface IUser extends Document {
   phoneNumber: string;
   role: string;
   isVerified: boolean;
+  paidUser : boolean;
   sessions: Array<{ sessionId: string }>;
   comparePassword: (password: string) => Promise<boolean>;
   SignAccessToken: () => string;
@@ -67,6 +68,10 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
       default: "user",
     },
     isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    paidUser: {
       type: Boolean,
       default: false,
     },

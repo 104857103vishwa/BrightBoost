@@ -171,7 +171,7 @@ export const getSessionByUser = CatchAsyncError(
   }
 );
 
-// add question in course
+// add question in session
 interface IAddQuestionData {
   question: string;
   sessionId: string;
@@ -203,7 +203,7 @@ export const addQuestion = CatchAsyncError(
         questionReplies: [],
       };
 
-      // add this question to our course content
+      // add this question to our session content
       sessionContent.questions.push(newQuestion);
 
       await NotificationModel.create({
@@ -212,7 +212,7 @@ export const addQuestion = CatchAsyncError(
         message: `You have a new question in ${sessionContent.title}`,
       });
 
-      // save the updated course
+      // save the updated session
       await session?.save();
 
       res.status(200).json({
@@ -225,7 +225,7 @@ export const addQuestion = CatchAsyncError(
   }
 );
 
-// add answer in course question
+// add answer in session question
 interface IAddAnswerData {
   answer: string;
   sessionId: string;
@@ -239,13 +239,13 @@ export const addAnwser = CatchAsyncError(
       const { answer, sessionId, contentId, questionId }: IAddAnswerData =
         req.body;
 
-      const course = await SessionModel.findById(sessionId);
+      const session = await SessionModel.findById(sessionId);
 
       if (!mongoose.Types.ObjectId.isValid(contentId)) {
         return next(new ErrorHandler("Invalid content id", 400));
       }
 
-      const couseContent = course?.sessionData?.find((item: any) =>
+      const couseContent = session?.sessionData?.find((item: any) =>
         item._id.equals(contentId)
       );
 
@@ -269,10 +269,10 @@ export const addAnwser = CatchAsyncError(
         updatedAt: new Date().toISOString(),
       };
 
-      // add this answer to our course content
+      // add this answer to our session content
       question.questionReplies.push(newAnswer);
 
-      await course?.save();
+      await session?.save();
 
       if (req.user?._id === question.user._id) {
         // create a notification
@@ -306,7 +306,7 @@ export const addAnwser = CatchAsyncError(
 
       res.status(200).json({
         success: true,
-        course,
+        session,
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
