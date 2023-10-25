@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { ErrorMiddleware } from "./middleware/generalErrors";
 import userRouter from "./routes/user";
+import sessionRouter from "./routes/session";
 
 export const app = express();
 
@@ -24,6 +25,7 @@ app.use(
 app.use(
   "/api/v1",
   userRouter,
+  sessionRouter,
 );
 
 
