@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
 import cloudinary from "cloudinary";
-import { createSession } from "../services/session.service";
+import { createSession, getAllSessionsService } from "../services/session.service";
 import SessionModel, { IComment } from "../models/session.model";
 import { redis } from "../utils/redis";
 import mongoose from "mongoose";
@@ -121,7 +121,7 @@ export const getSingleSession = CatchAsyncError(
 );
 
 
-// get all sessions
+// get all sessions - home page
 export const getAllSessions = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -210,6 +210,7 @@ export const addQuestion = CatchAsyncError(
         user: req.user?._id,
         title: "New Question Received",
         message: `You have a new question in ${sessionContent.title}`,
+        //add session instead of session content
       });
 
       // save the updated session
@@ -310,6 +311,44 @@ export const addAnwser = CatchAsyncError(
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
+
+// get all sessions --- only for admin
+export const getAdminAllSessions = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllSessionsService(res);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+// Delete Course --- only for admin
+export const deleteSession = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const session = await SessionModel.findById(id);
+
+      if (!session) {
+        return next(new ErrorHandler("session not found", 404));
+      }
+
+      await session.deleteOne({ id });
+
+      await redis.del(id);
+
+      res.status(200).json({
+        success: true,
+        message: "session deleted successfully",
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );

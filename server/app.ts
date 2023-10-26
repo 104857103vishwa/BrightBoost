@@ -6,6 +6,8 @@ import { ErrorMiddleware } from "./middleware/generalErrors";
 import userRouter from "./routes/user";
 import sessionRouter from "./routes/session";
 import paymentRouter from "./routes/payment.route";
+import notificationRouter from "./routes/notification.route";
+import analyticsRouter from "./routes/analytics.route";
 
 export const app = express();
 
@@ -28,6 +30,8 @@ app.use(
   userRouter,
   sessionRouter,
   paymentRouter,
+  notificationRouter,
+  analyticsRouter
 );
 
 

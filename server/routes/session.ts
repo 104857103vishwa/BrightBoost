@@ -15,6 +15,8 @@ import {
   uploadSession,
   addQuestion,
   addAnwser,
+  getAdminAllSessions,
+  deleteSession,
 } from "../controllers/session.controller";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
 const sessionRouter = express.Router();
@@ -37,12 +39,12 @@ sessionRouter.get("/get-session/:id", getSingleSession);
 
 sessionRouter.get("/get-sessions", getAllSessions);
 
-// sessionRouter.get(
-//   "/get-admin-sessions",
-//   isAutheticated,
-//   authorizeRoles("admin"),
-//   getAdminAllSessions
-// );
+sessionRouter.get(
+  "/get-all-sessions-admin",
+  isAutheticated,
+  authorizeRoles("admin"),
+  getAdminAllSessions
+);
 
 sessionRouter.get("/get-session-content/:id", isAutheticated, getSessionByUser);
 
@@ -61,11 +63,11 @@ sessionRouter.put("/add-answer", isAutheticated, addAnwser);
 
 // sessionRouter.post("/getVdoCipherOTP", generateVideoUrl);
 
-// sessionRouter.delete(
-//   "/delete-session/:id",
-//   isAutheticated,
-//   authorizeRoles("admin"),
-//   deleteSession
-// );
+sessionRouter.delete(
+  "/delete-session/:id",
+  isAutheticated,
+  authorizeRoles("admin"),
+  deleteSession
+);
 
 export default sessionRouter;

@@ -12,3 +12,13 @@ export const createSession = CatchAsyncError(async(data:any,res:Response)=>{
 })
 
 
+// Get All Sessions
+export const getAllSessionsService = async (res: Response) => {
+    const courses = await SessionModel.find().sort({ createdAt: -1 });
+  
+    res.status(201).json({
+      success: true,
+      courses,
+    });
+  };
+  

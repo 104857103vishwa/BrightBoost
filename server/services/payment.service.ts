@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import PaymentModel from "../models/payment.model";
 
-// create new order
+// create new payment
 export const newPayment = CatchAsyncError(async (data: any, res: Response) => {
   const payment = await PaymentModel.create(data);
 
@@ -13,7 +13,7 @@ export const newPayment = CatchAsyncError(async (data: any, res: Response) => {
 });
 
 // Get All Orders
-export const getAllOrdersService = async (res: Response) => {
+export const getAllPaymentsService = async (res: Response) => {
   const payments = await PaymentModel.find().sort({ createdAt: -1 });
 
   res.status(201).json({

@@ -1,6 +1,8 @@
 import express from "express";
 import {
   activateUser,
+  deleteUser,
+  getAllUsers,
   getUserData,
   loginUser,
   logoutUser,
@@ -9,6 +11,7 @@ import {
   updateAccessToken,
   updatePassword,
   updateProfilePicture,
+  updateRole,
   updateUser,
 } from "../controllers/user.controller";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
@@ -28,3 +31,24 @@ userRouter.put("/update-profile-picture", isAutheticated, updateProfilePicture);
 export default userRouter;
 
 // authorizeRoles("admin") - add to define role
+
+userRouter.get(
+  "/get-users",
+  isAutheticated,
+  authorizeRoles("admin"),
+  getAllUsers
+);
+
+userRouter.put(
+  "/update-role",
+  isAutheticated,
+  authorizeRoles("admin"),
+  updateRole
+);
+
+userRouter.delete(
+  "/delete-user/:id",
+  isAutheticated,
+  authorizeRoles("admin"),
+  deleteUser
+);

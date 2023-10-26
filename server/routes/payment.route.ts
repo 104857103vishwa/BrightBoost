@@ -1,7 +1,7 @@
 import express from "express";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
 import {
-  createPayment,
+  createPayment, getAllPayments,
 //   getAllPayments,
 //   newPayment,
 //   sendStripePublishableKey,
@@ -10,12 +10,12 @@ const paymentRouter = express.Router();
 
 paymentRouter.post("/create-payment", isAutheticated, createPayment);
 
-// paymentRouter.get(
-//   "/get-payments",
-//   isAutheticated,
-//   authorizeRoles("admin"),
-//   getAllPayments
-// );
+paymentRouter.get(
+  "/get-all-payments-admin",
+  isAutheticated,
+  authorizeRoles("admin"),
+  getAllPayments
+);
 
 // paymentRouter.get("/payment/stripepublishablekey", sendStripePublishableKey);
 

@@ -10,7 +10,7 @@ import sendMail from "../utils/sendMail";
 import NotificationModel from "../models/notification.model";
 // import { getAllPaymentsService, newPayment } from "../services/payment.service";
 import { redis } from "../utils/redis";
-import { newPayment } from "../services/payment.service";
+import { getAllPaymentsService, newPayment } from "../services/payment.service";
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
@@ -116,15 +116,15 @@ export const createPayment = CatchAsyncError(
 );
 
 // get All payments --- only for admin
-// export const getAllPayments = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       // getAllPaymentsService(res);
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+export const getAllPayments = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllPaymentsService(res);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
 
 // //  send stripe publishble key
 // export const sendStripePublishableKey = CatchAsyncError(
