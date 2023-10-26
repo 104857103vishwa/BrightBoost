@@ -4,11 +4,10 @@ import userModel from "../models/user.model";
 
 // get user by id
 export const getUserById = async (id: string, res: Response) => {
-  const toParserUser = await redis.get(id);
-  // const user = await userModel.findById(id);
+  const userJson = await redis.get(id);
 
-  if (toParserUser) {
-    const user = JSON.parse(toParserUser);
+  if (userJson) {
+    const user = JSON.parse(userJson);
     res.status(201).json({
       success: true,
       user,
@@ -27,7 +26,7 @@ export const getAllUsersService = async (res: Response) => {
 };
 
 // update user role
-export const updateRoleService = async (res:Response,id: string,role:string) => {
+export const updateUserRoleService = async (res:Response,id: string,role:string) => {
   const user = await userModel.findByIdAndUpdate(id, { role }, { new: true });
 
   res.status(201).json({

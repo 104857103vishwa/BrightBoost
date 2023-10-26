@@ -3,8 +3,8 @@ import ErrorHandler from "../utils/ErrorHandler";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import { generateLast12MothsData } from "../utils/analytics.generator";
 import userModel from "../models/user.model";
-import SessionModel from "../models/session.model";
-import PaymentModel from "../models/payment.model";
+import CourseModel from "../models/course.model";
+import OrderModel from "../models/order.Model";
 
 // get users analytics --- only for admin
 export const getUsersAnalytics = CatchAsyncError(
@@ -23,10 +23,10 @@ export const getUsersAnalytics = CatchAsyncError(
 );
 
 // get courses analytics --- only for admin
-export const getSessionsAnalytics = CatchAsyncError(
+export const getCoursesAnalytics = CatchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const courses = await generateLast12MothsData(SessionModel);
+        const courses = await generateLast12MothsData(CourseModel);
   
         res.status(200).json({
           success: true,
@@ -39,15 +39,15 @@ export const getSessionsAnalytics = CatchAsyncError(
   );
   
   
-// get payment analytics --- only for admin
-export const getPaymentAnalytics = CatchAsyncError(
+// get order analytics --- only for admin
+export const getOrderAnalytics = CatchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const payments = await generateLast12MothsData(PaymentModel);
+        const orders = await generateLast12MothsData(OrderModel);
   
         res.status(200).json({
           success: true,
-          payments,
+          orders,
         });
       } catch (error: any) {
         return next(new ErrorHandler(error.message, 500));

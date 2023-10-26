@@ -13,25 +13,25 @@ import {
   sendToken,
 } from "../utils/jwt";
 import { redis } from "../utils/redis";
-import { getAllUsersService, getUserById, updateRoleService } from "../services/user.service";
+import {
+  getAllUsersService,
+  getUserById,
+  updateUserRoleService,
+} from "../services/user.service";
 import cloudinary from "cloudinary";
 
 // register user
 interface IRegistrationBody {
-  firstName: string;
-  lastName: string;
-  address: string;
-  phoneNumber: string;
+  name: string;
   email: string;
   password: string;
-  profileImage?: string;
+  avatar?: string;
 }
 
 export const registrationUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { firstName, lastName, address, phoneNumber, email, password } =
-        req.body;
+      const { name, email, password } = req.body;
 
       const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
@@ -39,10 +39,7 @@ export const registrationUser = CatchAsyncError(
       }
 
       const user: IRegistrationBody = {
-        firstName,
-        lastName,
-        address,
-        phoneNumber,
+        name,
         email,
         password,
       };
@@ -51,7 +48,7 @@ export const registrationUser = CatchAsyncError(
 
       const activationCode = activationToken.activationCode;
 
-      const data = { user: { name: user.firstName }, activationCode };
+      const data = { user: { name: user.name }, activationCode };
       const html = await ejs.renderFile(
         path.join(__dirname, "../mails/activation-mail.ejs"),
         data
@@ -122,8 +119,7 @@ export const activateUser = CatchAsyncError(
         return next(new ErrorHandler("Invalid activation code", 400));
       }
 
-      const { firstName, lastName, address, phoneNumber, email, password } =
-        newUser.user;
+      const { name, email, password } = newUser.user;
 
       const existUser = await userModel.findOne({ email });
 
@@ -131,10 +127,7 @@ export const activateUser = CatchAsyncError(
         return next(new ErrorHandler("Email already exist", 400));
       }
       const user = await userModel.create({
-        firstName,
-        lastName,
-        address,
-        phoneNumber,
+        name,
         email,
         password,
       });
@@ -209,18 +202,18 @@ export const updateAccessToken = CatchAsyncError(
         process.env.REFRESH_TOKEN as string
       ) as JwtPayload;
 
-      const message = "Refresh token failed";
+      const message = "Could not refresh token";
       if (!decoded) {
         return next(new ErrorHandler(message, 400));
       }
       const session = await redis.get(decoded.id as string);
-
+         
       if (!session) {
         return next(
           new ErrorHandler("Please login for access this resources!", 400)
         );
       }
-
+      
       const user = JSON.parse(session);
 
       const accessToken = jwt.sign(
@@ -244,11 +237,6 @@ export const updateAccessToken = CatchAsyncError(
       res.cookie("access_token", accessToken, accessTokenOptions);
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
-      res.status(200).json({
-        status: "success",
-        accessToken,
-      });
-
       await redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7days
 
       return next();
@@ -259,7 +247,7 @@ export const updateAccessToken = CatchAsyncError(
 );
 
 // get user info
-export const getUserData = CatchAsyncError(
+export const getUserInfo = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user?._id;
@@ -270,31 +258,20 @@ export const getUserData = CatchAsyncError(
   }
 );
 
-interface ISocialAuth {
+interface ISocialAuthBody {
   email: string;
-  firstName: string;
-  lastName: string;
-  address: string;
-  phoneNumber: string;
-  profileImage: string;
+  name: string;
+  avatar: string;
 }
 
 // social auth
-export const socialLogin = CatchAsyncError(
+export const socialAuth = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { firstName, lastName, address, phoneNumber, email, profileImage } =
-        req.body as ISocialAuth;
+      const { email, name, avatar } = req.body as ISocialAuthBody;
       const user = await userModel.findOne({ email });
       if (!user) {
-        const newUser = await userModel.create({
-          firstName,
-          lastName,
-          address,
-          phoneNumber,
-          email,
-          profileImage,
-        });
+        const newUser = await userModel.create({ email, name, avatar });
         sendToken(newUser, 200, res);
       } else {
         sendToken(user, 200, res);
@@ -307,42 +284,20 @@ export const socialLogin = CatchAsyncError(
 
 // update user info
 interface IUpdateUserInfo {
-  firstName: string;
-  lastName: string;
-  email: string;
-  address: string;
-  phoneNumber: string;
+  name?: string;
+  email?: string;
 }
 
-export const updateUser = CatchAsyncError(
+export const updateUserInfo = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { firstName, lastName, email, phoneNumber, address } =
-        req.body as IUpdateUserInfo;
+      const { name } = req.body as IUpdateUserInfo;
 
       const userId = req.user?._id;
       const user = await userModel.findById(userId);
 
-      if (email && user) {
-        const isEmailExist = await userModel.findOne({ email });
-        if (isEmailExist) {
-          return next(new ErrorHandler("Email exists", 400));
-        }
-        user.email = email;
-      }
-
-      if (firstName && user) {
-        user.firstName = firstName;
-      }
-      if (lastName && user) {
-        user.lastName = lastName;
-      }
-
-      if (address && user) {
-        user.address = address;
-      }
-      if (phoneNumber && user) {
-        user.phoneNumber = phoneNumber;
+      if (name && user) {
+        user.name = name;
       }
 
       await user?.save();
@@ -402,41 +357,40 @@ export const updatePassword = CatchAsyncError(
   }
 );
 
-// update profile picture
-
 interface IUpdateProfilePicture {
-  profileImage: string;
+  avatar: string;
 }
 
+// update profile picture
 export const updateProfilePicture = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { profileImage } = req.body as IUpdateProfilePicture;
+      const { avatar } = req.body as IUpdateProfilePicture;
 
       const userId = req.user?._id;
 
       const user = await userModel.findById(userId).select("+password");
 
-      if (profileImage && user) {
+      if (avatar && user) {
         // if user have one avatar then call this if
-        if (user?.profileImage?.public_id) {
+        if (user?.avatar?.public_id) {
           // first delete the old image
-          await cloudinary.v2.uploader.destroy(user?.profileImage?.public_id);
+          await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
 
-          const myCloud = await cloudinary.v2.uploader.upload(profileImage, {
-            folder: "profileImages",
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
             width: 150,
           });
-          user.profileImage = {
+          user.avatar = {
             public_id: myCloud.public_id,
             url: myCloud.secure_url,
           };
         } else {
-          const myCloud = await cloudinary.v2.uploader.upload(profileImage, {
-            folder: "profileImages",
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
             width: 150,
           });
-          user.profileImage = {
+          user.avatar = {
             public_id: myCloud.public_id,
             url: myCloud.secure_url,
           };
@@ -457,7 +411,6 @@ export const updateProfilePicture = CatchAsyncError(
   }
 );
 
-
 // get all users --- only for admin
 export const getAllUsers = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -469,15 +422,15 @@ export const getAllUsers = CatchAsyncError(
   }
 );
 
-// update  role --- only for admin
-export const updateRole = CatchAsyncError(
+// update user role --- only for admin
+export const updateUserRole = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, role } = req.body;
       const isUserExist = await userModel.findOne({ email });
       if (isUserExist) {
         const id = isUserExist._id;
-        updateRoleService(res,id, role);
+        updateUserRoleService(res,id, role);
       } else {
         res.status(400).json({
           success: false,
