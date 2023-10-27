@@ -128,6 +128,20 @@ const Signup: FC<Props> = ({ setRoute }) => {
         {errors.password && touched.password && (
           <span className="text-red-500 pt-2 block">{errors.password}</span>
         )}
+
+          
+
+
+
+
+
+
+
+
+
+
+
+        
         <div className="w-full mt-5">
           <input type="submit" value="Sign Up" className={`${styles.button}`} />
         </div>
