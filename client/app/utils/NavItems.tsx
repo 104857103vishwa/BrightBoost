@@ -7,20 +7,12 @@ export const navItemsData = [
     url: "/",
   },
   {
-    name: "Courses",
+    name: "Sessions",
     url: "/courses",
   },
   {
     name: "About",
     url: "/about",
-  },
-  {
-    name: "Policy",
-    url: "/policy",
-  },
-  {
-    name: "FAQ",
-    url: "/faq",
   },
 ];
 

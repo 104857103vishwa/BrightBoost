@@ -183,7 +183,7 @@ const Sidebar = () => {
               {!isCollapsed && "Data"}
             </Typography>
             <Item
-              title="Users"
+              title="Students"
               to="/admin/users"
               icon={<GroupsIcon />}
               selected={selected}
@@ -191,7 +191,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Invoices"
+              title="Payments"
               to="/admin/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -227,27 +227,7 @@ const Sidebar = () => {
             >
               {!isCollapsed && "Customization"}
             </Typography>
-            <Item
-              title="Hero"
-              to="/admin/hero"
-              icon={<WebIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="FAQ"
-              to="/admin/faq"
-              icon={<QuizIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Categories"
-              to="/admin/categories"
-              icon={<WysiwygIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            
 
             <Typography
               variant="h5"
@@ -279,7 +259,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Orders Analytics"
+              title="Payment Analytics"
               to="/admin/orders-analytics"
               icon={<MapOutlinedIcon />}
               selected={selected}

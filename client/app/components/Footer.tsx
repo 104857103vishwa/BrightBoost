@@ -18,7 +18,6 @@ const Footer = (props: Props) => {
                   href="/about"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white"
                 >
-                  Our Story
                 </Link>
               </li>
               <li>
@@ -26,7 +25,6 @@ const Footer = (props: Props) => {
                   href="/privacy-policy"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white"
                 >
-                  Privacy Policy
                 </Link>
               </li>
               <li>
@@ -34,7 +32,6 @@ const Footer = (props: Props) => {
                   href="/faq"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white"
                 >
-                  FAQ
                 </Link>
               </li>
             </ul>
@@ -47,7 +44,7 @@ const Footer = (props: Props) => {
                   href="/courses"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white"
                 >
-                  Courses
+                  Sessions
                 </Link>
               </li>
               <li>
@@ -63,7 +60,7 @@ const Footer = (props: Props) => {
                   href="/course-dashboard"
                   className="text-base text-black dark:text-gray-300 dark:hover:text-white"
                 >
-                  Course Dashboard
+                  Session Dashboard
                 </Link>
               </li>
             </ul>
@@ -71,40 +68,17 @@ const Footer = (props: Props) => {
           <div className="space-y-3">
             <h3 className="text-[20px] font-[600] text-black dark:text-white">Social Links</h3>
             <ul className="space-y-4">
-              <li>
-                <Link
-                  href="https://www.youtube.com/channel/UCHz6Sne9splmvm-q2w1_HWQ"
-                  className="text-base text-black dark:text-gray-300 dark:hover:text-white"
-                >
-                  Youtube
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://www.instagram.com/shahriar_sajeeb_/"
-                  className="text-base text-black dark:text-gray-300 dark:hover:text-white"
-                >
-                  Instagram
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://www.github.com/shahriarsajeeb"
-                  className="text-base text-black dark:text-gray-300 dark:hover:text-white"
-                >
-                  github
-                </Link>
-              </li>
+              
             </ul>
           </div>
           <div>
             <h3 className="text-[20px] font-[600] text-black dark:text-white pb-3">Contact Info</h3>
             <p className="text-base text-black dark:text-gray-300 dark:hover:text-white pb-2">
-            Call Us: 1-885-665-2022
+            Call Us: 0480532749
             </p>
            
             <p className="text-base text-black dark:text-gray-300 dark:hover:text-white pb-2">
-            Address: +7011 Vermont Ave, Los Angeles, CA 90044
+            Swinburne University
             </p>
          
             <p className="text-base text-black dark:text-gray-300 dark:hover:text-white  pb-2">

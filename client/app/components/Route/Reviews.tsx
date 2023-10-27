@@ -24,7 +24,7 @@ export const reviews = [
   {
     name: "Ghaida Abobakr",
     avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-    profession: "Full stack web developer | Canada",
+    profession: "Teacher| Saudi",
     comment:
       " personalized education companion that has boosted my confidence and overall academic perform",
   },

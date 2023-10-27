@@ -13,7 +13,6 @@ const CourseContentList: FC<Props> = (props) => {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(
     new Set<string>()
   );
-  console.log(props.data[0].questions.length);
   // Find unique video sections
   const videoSections: string[] = [
     ...new Set<string>(props.data?.map((item: any) => item.videoSection)),
@@ -87,7 +86,7 @@ const CourseContentList: FC<Props> = (props) => {
                 ? sectionVideoLength
                 : sectionContentHours.toFixed(2)}{" "}
               {sectionVideoLength > 60 ? "hours" : "minutes"} <br></br>
-              <b> Number of Questions : {props.data[0].questions.length} </b>
+              <b> Number of Questions : {props.data[0].questions?.length} </b>
             </h5>
             <br />
             {isSectionVisible && (
