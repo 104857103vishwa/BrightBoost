@@ -24,7 +24,6 @@ export const getUsersAnalytics = CatchAsyncError(
   }
 );
 
-// get courses analytics --- only for admin
 export const getCoursesAnalytics = CatchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
       try {
