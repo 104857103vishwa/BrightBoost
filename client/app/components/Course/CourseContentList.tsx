@@ -13,7 +13,7 @@ const CourseContentList: FC<Props> = (props) => {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(
     new Set<string>()
   );
-
+  console.log(props.data[0].questions.length);
   // Find unique video sections
   const videoSections: string[] = [
     ...new Set<string>(props.data?.map((item: any) => item.videoSection)),
@@ -32,9 +32,12 @@ const CourseContentList: FC<Props> = (props) => {
   };
 
   return (
-    <div className={`mt-[15px] w-full ${!props.isDemo && 'ml-[-30px] min-h-screen sticky top-24 left-0 z-30'}`}>
+    <div
+      className={`mt-[15px] w-full ${
+        !props.isDemo && "ml-[-30px] min-h-screen sticky top-24 left-0 z-30"
+      }`}
+    >
       {videoSections.map((section: string, sectionIndex: number) => {
-
         const isSectionVisible = visibleSections.has(section);
 
         // Filter videos by section
@@ -53,12 +56,19 @@ const CourseContentList: FC<Props> = (props) => {
         const sectionContentHours: number = sectionVideoLength / 60;
 
         return (
-          <div className={`${!props.isDemo && 'border-b border-[#0000001c] dark:border-[#ffffff8e] pb-2'}`} key={section}>
+          <div
+            className={`${
+              !props.isDemo &&
+              "border-b border-[#0000001c] dark:border-[#ffffff8e] pb-2"
+            }`}
+            key={section}
+          >
             <div className="w-full flex">
               {/* Render video section */}
-              <div className="w-full flex justify-between items-center"
-              >
-                <h2 className="text-[22px] text-black dark:text-white">{section}</h2>
+              <div className="w-full flex justify-between items-center">
+                <h2 className="text-[22px] text-black dark:text-white">
+                  {section}
+                </h2>
                 <button
                   className="mr-4 cursor-pointer text-black dark:text-white"
                   onClick={() => toggleSection(section)}
@@ -76,7 +86,8 @@ const CourseContentList: FC<Props> = (props) => {
               {sectionVideoLength < 60
                 ? sectionVideoLength
                 : sectionContentHours.toFixed(2)}{" "}
-              {sectionVideoLength > 60 ? "hours" : "minutes"}
+              {sectionVideoLength > 60 ? "hours" : "minutes"} <br></br>
+              <b> Number of Questions : {props.data[0].questions.length} </b>
             </h5>
             <br />
             {isSectionVisible && (
@@ -90,7 +101,9 @@ const CourseContentList: FC<Props> = (props) => {
                         videoIndex === props.activeVideo ? "bg-slate-800" : ""
                       } cursor-pointer transition-all p-2`}
                       key={item._id}
-                      onClick={() => props.isDemo ? null : props?.setActiveVideo(videoIndex)}
+                      onClick={() =>
+                        props.isDemo ? null : props?.setActiveVideo(videoIndex)
+                      }
                     >
                       <div className="flex items-start">
                         <div>
@@ -101,11 +114,13 @@ const CourseContentList: FC<Props> = (props) => {
                           />
                         </div>
                         <h1 className="text-[18px] inline-block break-words text-black dark:text-white">
-                          {item.title}
+                          {item.title} 
                         </h1>
                       </div>
                       <h5 className="pl-8 text-black dark:text-white">
-                        {item.videoLength > 60 ? contentLength.toFixed(2) : item.videoLength}{" "}
+                        {item.videoLength > 60
+                          ? contentLength.toFixed(2)
+                          : item.videoLength}{" "}
                         {item.videoLength > 60 ? "hours" : "minutes"}
                       </h5>
                     </div>

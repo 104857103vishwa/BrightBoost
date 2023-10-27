@@ -20,7 +20,7 @@ const Page: FC<Props> = (props) => {
       <Protected>
         <Heading
           title={`${user?.name} profile - Elearning`}
-          description="ELearning is a platform for students to learn and get help from teachers"
+          description="BrightBoost is a platform for students to learn and get help from teachers"
           keywords="Prograaming,MERN,Redux,Machine Learning"
         />
         <Header

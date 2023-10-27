@@ -108,14 +108,14 @@ const Footer = (props: Props) => {
             </p>
          
             <p className="text-base text-black dark:text-gray-300 dark:hover:text-white  pb-2">
-            Mail Us: hello@elearning.com
+            Mail Us: hello@brightboost.com
             </p>
             
           </div>
         </div>
         <br />
         <p className="text-center text-black dark:text-white">
-          Copyright © 2023 ELearning | All Rights Reserved
+          Copyright © 2023 BrightBoost | All Rights Reserved
         </p>
       </div>
       <br />

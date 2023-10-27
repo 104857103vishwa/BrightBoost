@@ -14,11 +14,12 @@ const CoursePlayer: FC<Props> = ({ videoUrl }) => {
 
   useEffect(() => {
     axios
-      .post("https://elearning-lms-7728bbd846c2.herokuapp.com/api/v1/getVdoCipherOTP", {
+      .post("https://brightboost-lms-7728bbd846c2.herokuapp.com/api/v1/getVdoCipherOTP", {
         videoId: videoUrl,
       })
       .then((res) => {
         setVideoData(res.data);
+        console.log(res.data)
       });
   }, [videoUrl]);
 

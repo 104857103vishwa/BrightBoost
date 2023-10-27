@@ -238,7 +238,7 @@ const AllCourses: FC<Props> = ({ isTeam }) => {
                     onChange={(e: any) => setRole(e.target.value)}
                   >
                     <option value="admin">Admin</option>
-                    <option value="user">User</option>
+                    <option value="user">Teacher</option>
                   </select>
                   <br />
                   <div

@@ -14,7 +14,7 @@ const page = ({params}:any) => {
     <div>
         <Heading
          title="Elearning - Admin"
-         description="ELearning is a platform for students to learn and get help from teachers"
+         description="BrightBoost is a platform for students to learn and get help from teachers"
          keywords="Prograaming,MERN,Redux,Machine Learning"
         />
         <div className="flex">
